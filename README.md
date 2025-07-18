@@ -1,58 +1,17 @@
-# Svelte library
+# Instance Driven Architecture
 
-Everything you need to build a Svelte library, powered by [`sv`](https://npmjs.com/package/sv).
+Designed for rapid prototyping, Instance Driven Architecture lets you set up database tables and schemas quickly, and then interface with them using routes.
 
-Read more about creating a library [in the docs](https://svelte.dev/docs/kit/packaging).
+Further, all relational data loading and saving is handled through a class instance for each table which contains getters for components that embed the db query logic.
 
-## Creating a project
+Benefits of this approach:
+   - Components no longer contain any saving or loading logic, and are purely UI driven.
+   - The same component can be used in different contexts, with different queries for loading data.
+   - All possible components that can be in a class instance's view are on the instance, so less imports.
 
-If you're seeing this, you've probably already done this step. Congrats!
+If you're looking to quickly prototype an app, you only need to do the following:
+   - define the data schemas.
+   - write your UI components.
+   - create getters for your components in each table's class
 
-```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
-
-## Building
-
-To build your library:
-
-```bash
-npm run package
-```
-
-To create a production version of your showcase app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
-
-## Publishing
-
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
-
-To publish your library to [npm](https://www.npmjs.com):
-
-```bash
-npm publish
-```
+It does require some initial setup for the data schemas and class instances, but once that's done, adding relational data becomes trivial, and your components stay super lean.
