@@ -1,0 +1,17 @@
+<script lang="ts">
+   import { db } from './db.js'
+</script>
+
+{#if db}
+<nav>
+   <ul>
+      <li><a href="/">Home</a></li>
+      {#each db.tables as { name }}
+         <li><a href={`/${name}`}>{name}</a></li>
+      {/each}
+   </ul>
+</nav>
+<slot />
+{:else}
+   No Database Configured
+{/if}
