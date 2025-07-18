@@ -6,3 +6,5 @@
 
 <input type="text" bind:value={tag.data.name} />
 <input type="color" bind:value={tag.data.color} />
+
+<tag.articles />
