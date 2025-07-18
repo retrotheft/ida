@@ -21,9 +21,18 @@ export class Article {
       date: new Date().toISOString(),
       userId: ''
    })
+   lastUpdate: number = $state(Date.now())
+   _tags = $state([])
 
    constructor(public db: DatabaseService, data?: ArticleSchema) {
       if (data) this.data = data
+      this.refreshTags()
+   }
+
+   refreshTags = () => {
+      return this.db.join('article')('tag')({ articleId: this.data.id }).then(res =>
+         this._tags = res
+      )
    }
 
    updateUser(id: string) {
@@ -36,6 +45,8 @@ export class Article {
       const articleTag = { articleId, tagId }
       this.db.put('article_tag')(articleTag)
       console.log("Adding tag with id", id)
+      this.lastUpdate = Date.now()
+      this.refreshTags()
    }
 
    get snapshot() {
@@ -64,7 +75,7 @@ export class Article {
    }
 
    get tags() {
-      return withData(TagList, 'tags', () => this.db.join('article')('tag')({ articleId: this.data.id })) as any
+      return withProps(TagList, { tags: this._tags }) as any
    }
 
    get selectTags() {

@@ -2,6 +2,7 @@
    import { type Article } from "$lib/classes/Article.svelte.js";
 
    let { article }: { article: Article } = $props();
+
 </script>
 
 <div>
