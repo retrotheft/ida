@@ -21,7 +21,6 @@ export class Article {
       date: new Date().toISOString(),
       userId: ''
    })
-   lastUpdate: number = $state(Date.now())
    _tags = $state([])
 
    constructor(public db: DatabaseService, data?: ArticleSchema) {
@@ -35,17 +34,15 @@ export class Article {
       )
    }
 
-   updateUser(id: string) {
+   updateUser = (id: string) => {
       this.data.userId = id
    }
 
-   addTag(id: string) {
+   addTag = (id: string) => {
       const articleId = this.data.id
       const tagId = id
       const articleTag = { articleId, tagId }
       this.db.put('article_tag')(articleTag)
-      console.log("Adding tag with id", id)
-      this.lastUpdate = Date.now()
       this.refreshTags()
    }
 

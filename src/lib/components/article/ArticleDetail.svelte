@@ -8,11 +8,12 @@
 <div>
    <label for="title">Title</label><br />
    <input name="title" type="text" bind:value={article.data.title} />
-   <article.selectUser callback={(id: string) => article.updateUser(id)} />
+   <!-- <article.selectUser callback={(id: string) => article.updateUser(id)} /> -->
+   <article.selectUser callback={article.updateUser} />
 </div>
 <div>
    <article.tags /><br />
-   Add Tag: <article.selectTags callback={(id: string) => article.addTag(id)} />
+   Add Tag: <article.selectTags callback={article.addTag} />
 </div>
 <div>
    <label for="body">Body</label><br />

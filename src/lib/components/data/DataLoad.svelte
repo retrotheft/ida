@@ -1,12 +1,6 @@
 <script lang="ts">
    // @ts-nocheck
-   import { onMount } from 'svelte'
-
    let { loader, children } = $props()
-
-   onMount(async () => {
-      const response = await loader()
-   })
 </script>
 
 <svelte:boundary>
