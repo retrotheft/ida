@@ -16,6 +16,7 @@ export interface Instance {
 
 export interface DatabaseService {
    all: Function
+   join: Function
    add: Function
    get: Function
    put: Function
@@ -41,6 +42,12 @@ const userSchema = z.object({
    name: z.string().min(1).max(32)
 })
 
+const articleTagSchema = z.object({
+   articleId: z.uuid(),
+   tagId: z.uuid()
+})
+
 export type ArticleSchema = z.infer<typeof articleSchema>
 export type TagSchema = z.infer<typeof tagSchema>
 export type UserSchema = z.infer<typeof userSchema>
+export type ArticleTagSchema = z.infer<typeof articleTagSchema>

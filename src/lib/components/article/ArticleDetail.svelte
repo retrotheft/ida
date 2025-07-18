@@ -10,6 +10,10 @@
    <article.selectUser callback={(id: string) => article.updateUser(id)} />
 </div>
 <div>
+   <article.tags /><br />
+   Add Tag: <article.selectTags callback={(id: string) => article.addTag(id)} />
+</div>
+<div>
    <label for="body">Body</label><br />
    <textarea name="body" bind:value={article.data.body} rows="10" cols="40"></textarea>
 </div>

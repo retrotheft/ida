@@ -3,6 +3,8 @@ import { type DatabaseService } from '$lib/data.js'
 import ArticleDetail from '$lib/components/article/ArticleDetail.svelte'
 import ArticleListItem from '$lib/components/article/ArticleListItem.svelte'
 import ArticleView from '$lib/components/article/ArticleView.svelte'
+import TagList from '$lib/components/tag/TagList.svelte'
+import TagSelect from '$lib/components/tag/TagSelect.svelte'
 import UserBadge from '$lib/components/user/UserBadge.svelte'
 import UserSelect from '$lib/components/user/UserSelect.svelte'
 import { withProps } from '$lib/functions/withProps.js'
@@ -28,6 +30,14 @@ export class Article {
       this.data.userId = id
    }
 
+   addTag(id: string) {
+      const articleId = this.data.id
+      const tagId = id
+      const articleTag = { articleId, tagId }
+      this.db.put('article_tag')(articleTag)
+      console.log("Adding tag with id", id)
+   }
+
    get snapshot() {
       return $state.snapshot(this.data)
    }
@@ -50,7 +60,15 @@ export class Article {
    }
 
    get selectUser() {
-      return withData(UserSelect, 'users', () => this.db.all('user')) as any
+      return withData(UserSelect, 'users', () => this.db.all('user')) as any // suppresses error in article.detail
+   }
+
+   get tags() {
+      return withData(TagList, 'tags', () => this.db.join('article')('tag')({ articleId: this.data.id })) as any
+   }
+
+   get selectTags() {
+      return withData(TagSelect, 'tags', () => this.db.all('tag')) as any
    }
 
    static create(db: DatabaseService) {

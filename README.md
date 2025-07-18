@@ -15,3 +15,5 @@ If you're looking to quickly prototype an app, you only need to do the following
    - create getters for your components in each table's class
 
 It does require some initial setup for the data schemas and class instances, but once that's done, adding relational data becomes trivial, and your components stay super lean.
+
+Also, since the database is passed into the class instances as a dependency on instantiation, you can swap out different storage services, as long as they conform to the DatabaseService interface. In this example I've used Dexie, and I just set up a class that extends Dexie and implements DatabaseService. You should be able to extend any other storage class in the same way.
