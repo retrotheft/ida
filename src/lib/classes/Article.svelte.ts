@@ -1,4 +1,4 @@
-import type { ArticleSchema } from '$lib/data.js'
+import type { ArticleSchema, TagSchema } from '$lib/data.js'
 import { type DatabaseService } from '$lib/data.js'
 import ArticleDetail from '$lib/components/article/ArticleDetail.svelte'
 import ArticleListItem from '$lib/components/article/ArticleListItem.svelte'
@@ -21,7 +21,7 @@ export class Article {
       date: new Date().toISOString(),
       userId: ''
    })
-   _tags = $state([])
+   _tags = $state<TagSchema[]>([])
 
    constructor(public db: DatabaseService, data?: ArticleSchema) {
       if (data) this.data = data
@@ -29,9 +29,8 @@ export class Article {
    }
 
    refreshTags = () => {
-      return this.db.join('article')('tag')({ articleId: this.data.id }).then(res =>
-         this._tags = res
-      )
+      return this.db.join('article')('tag')({ articleId: this.data.id })
+         .then((res: TagSchema[]) => this._tags = res)
    }
 
    updateUser = (id: string) => {
@@ -46,37 +45,24 @@ export class Article {
       this.refreshTags()
    }
 
-   get snapshot() {
-      return $state.snapshot(this.data)
+   removeTag = (tagId: string) => {
+      const articleId = this.data.id
+      console.log("Deleting tag", tagId, "from", articleId)
+      this.db.del('article_tag')([articleId, tagId])
+      this.refreshTags()
    }
 
-   get detail() {
-      return withSave(DataSave, ArticleDetail, { article: this }, () => this.db.put('article')(this.snapshot))
-   }
-
-   get view() {
-      return withProps(ArticleView, { article: this })
-   }
-
-   get listItem() {
-      return withProps(ArticleListItem, { article: this })
-   }
-
+   // using as any suppresses error in article.detail
+   get snapshot() { return $state.snapshot(this.data) }
+   get detail() { return withSave(DataSave, ArticleDetail, { article: this }, () => this.db.put('article')(this.snapshot)) }
+   get view() { return withProps(ArticleView, { article: this }) }
+   get listItem() { return withProps(ArticleListItem, { article: this }) }
+   get tags() { return withProps(TagList, { tags: this._tags, remove: this.removeTag }) as any }
+   get selectUser() { return withData(UserSelect, 'users', () => this.db.all('user')) as any }
+   get selectTags() { return withData(TagSelect, 'tags', () => this.db.all('tag')) as any }
    get author() {
       const withInstance = withInstanceFactory(this.db)
       return withInstance(UserBadge, 'user', () => this.db.get('user')(this.data.userId))
-   }
-
-   get selectUser() {
-      return withData(UserSelect, 'users', () => this.db.all('user')) as any // suppresses error in article.detail
-   }
-
-   get tags() {
-      return withProps(TagList, { tags: this._tags }) as any
-   }
-
-   get selectTags() {
-      return withData(TagSelect, 'tags', () => this.db.all('tag')) as any
    }
 
    static create(db: DatabaseService) {

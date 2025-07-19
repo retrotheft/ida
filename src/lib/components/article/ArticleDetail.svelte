@@ -2,13 +2,11 @@
    import { type Article } from "$lib/classes/Article.svelte.js";
 
    let { article }: { article: Article } = $props();
-
 </script>
 
 <div>
    <label for="title">Title</label><br />
    <input name="title" type="text" bind:value={article.data.title} />
-   <!-- <article.selectUser callback={(id: string) => article.updateUser(id)} /> -->
    <article.selectUser callback={article.updateUser} />
 </div>
 <div>

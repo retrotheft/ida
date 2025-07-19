@@ -1,11 +1,17 @@
 <script lang="ts">
    import { type TagSchema } from "$lib/data.js";
+   import TagDelete from './TagDelete.svelte'
 
-   let { tags }: { tags: TagSchema[] } = $props();
+   let { tags, remove }: { tags: TagSchema[], remove?: (tagId: string) => void } = $props();
 </script>
 
 <ul style="display: flex; gap: 1em;">
    {#each tags as tag}
-      <li style={`color: black; background-color: ${tag.color}; padding: 0.25em .5em; border-radius: 0.25em;`}>{tag.name}</li>
+      <li style={`color: black; background-color: ${tag.color}; padding: 0.25em .5em; border-radius: 0.25em;`}>
+         {tag.name}
+         {#if remove}
+            <TagDelete {tag} callback={remove} />
+         {/if}
+      </li>
    {/each}
 </ul>
