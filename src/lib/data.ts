@@ -10,8 +10,7 @@ export const constructors = {
 }
 
 export interface Instance {
-   detail: any
-   view: any
+   [key: string]: any
 }
 
 export interface DatabaseService {
@@ -21,6 +20,7 @@ export interface DatabaseService {
    get: Function
    put: Function
    del: Function
+   filter: Function
 }
 
 const articleSchema = z.object({

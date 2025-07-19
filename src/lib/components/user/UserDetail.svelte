@@ -5,3 +5,7 @@
 </script>
 
 <input type="text" bind:value={user.data.name} />
+
+<h2>Articles</h2>
+
+<user.articles />

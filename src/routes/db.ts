@@ -30,6 +30,12 @@ class DexieDatabase extends Dexie.default implements DatabaseService, TableNames
       return table.toArray()
    }
 
+   filter = (tableName: keyof TableNames) => (param: Object) => {
+      const table = this[tableName]
+      if (!table) return
+      return table.where(param).toArray()
+   }
+
    // partially apply source and target tables and join them with underscore
    join = (sourceTableName: keyof TableNames) => (targetTableName: keyof TableNames) => async (param: any) => {
       const joinTableName1 = sourceTableName + '_' + targetTableName as keyof TableNames

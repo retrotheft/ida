@@ -47,7 +47,6 @@ export class Article {
 
    removeTag = (tagId: string) => {
       const articleId = this.data.id
-      console.log("Deleting tag", tagId, "from", articleId)
       this.db.del('article_tag')([articleId, tagId])
       this.refreshTags()
    }
