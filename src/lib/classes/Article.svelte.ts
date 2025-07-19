@@ -10,10 +10,11 @@ import UserSelect from '$lib/components/user/UserSelect.svelte'
 import { withProps } from '$lib/functions/withProps.js'
 import { withSave } from '$lib/functions/withSave.js'
 import { withData } from '$lib/functions/withData.js'
-import { withInstanceFactory } from '$lib/functions/withInstance.js'
+import { withInstance } from '$lib/functions/withInstance.js'
 import DataSave from '$lib/components/data/DataSave.svelte'
+import { BaseDB } from './_BaseDB.js'
 
-export class Article {
+export class Article extends BaseDB {
    public data = $state<ArticleSchema>({
       id: crypto.randomUUID(),
       title: 'untitled',
@@ -23,7 +24,8 @@ export class Article {
    })
    _tags = $state<TagSchema[]>([])
 
-   constructor(public db: DatabaseService, data?: ArticleSchema) {
+   constructor(data?: ArticleSchema) {
+      super()
       if (data) this.data = data
       this.refreshTags()
    }
@@ -59,13 +61,14 @@ export class Article {
    get tags() { return withProps(TagList, { tags: this._tags, remove: this.removeTag }) as any }
    get selectUser() { return withData(UserSelect, 'users', () => this.db.all('user')) as any }
    get selectTags() { return withData(TagSelect, 'tags', () => this.db.all('tag')) as any }
-   get author() {
-      const withInstance = withInstanceFactory(this.db)
-      return withInstance(UserBadge, 'user', () => this.db.get('user')(this.data.userId))
+   get author() { return withInstance(UserBadge, 'user', () => this.db.get('user')(this.data.userId)) }
+
+   get db() {
+      return this.getDB()
    }
 
-   static create(db: DatabaseService) {
-      const article = new Article(db)
-      return db.put('article')(article.snapshot)
+   static create() {
+      const article = new Article()
+      return article.db.put('article')(article.snapshot)
    }
 }

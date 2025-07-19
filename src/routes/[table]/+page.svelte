@@ -1,6 +1,5 @@
 <script lang="ts">
    import { invalidateAll } from "$app/navigation";
-   import { db } from "../db.js";
 
    type ValidClass = {
       create: Function
@@ -15,7 +14,7 @@
    let { data }: { data: Data } = $props();
 
    function add() {
-      data.constructor.create(db);
+      data.constructor.create();
       invalidateAll();
    }
 </script>

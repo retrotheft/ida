@@ -1,7 +1,6 @@
+import { db } from './db.js'
+import { setDB } from '$lib/dbConfig.js';
 
-// import { db } from './db.js'
-// import { setDB } from '$lib/dbConfig.js';
-
-// setDB(db)
+setDB(db)
 
 export const ssr = false

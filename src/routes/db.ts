@@ -37,7 +37,7 @@ class DexieDatabase extends Dexie.default implements DatabaseService, TableNames
    }
 
    // partially apply source and target tables and join them with underscore
-   join = (sourceTableName: keyof TableNames) => (targetTableName: keyof TableNames) => async (param: any) => {
+   join = (sourceTableName: keyof TableNames) => (targetTableName: keyof TableNames) => async (param: { [key: string]: any}) => {
       const joinTableName1 = sourceTableName + '_' + targetTableName as keyof TableNames
       const joinTableName2 = targetTableName + '_' + sourceTableName as keyof TableNames
 
@@ -79,7 +79,7 @@ class DexieDatabase extends Dexie.default implements DatabaseService, TableNames
    }
 
    del = (tableName: keyof TableNames) => (key: any) => {
-      const table = this[tableName]
+      const table = this[tableName] as any
       if (!table) return
       return table.delete(key)
    }

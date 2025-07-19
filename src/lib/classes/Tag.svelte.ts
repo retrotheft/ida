@@ -6,15 +6,17 @@ import { withData } from '$lib/functions/withData.js'
 import { withProps } from '$lib/functions/withProps.js'
 import { withSave } from '$lib/functions/withSave.js'
 import DataSave from "$lib/components/data/DataSave.svelte";
+import { BaseDB } from './_BaseDB.js'
 
-export class Tag {
+export class Tag extends BaseDB {
    public data = $state<TagSchema>({
       id: crypto.randomUUID(),
       name: 'untitled tag',
       color: 'white'
    })
 
-   constructor(public db: DatabaseService, data?: TagSchema) {
+   constructor(data?: TagSchema) {
+      super()
       if (data) this.data = data
    }
 
@@ -34,8 +36,12 @@ export class Tag {
       return withData(ArticleList, 'articles', () => this.db.join('tag')('article')({ tagId: this.data.id })) as any
    }
 
-   static create(db: DatabaseService) {
-      const tag = new Tag(db)
-      return db.put('tag')(tag.snapshot)
+   get db() {
+      return this.getDB()
+   }
+
+   static create() {
+      const tag = new Tag()
+      return tag.db.put('tag')(tag.snapshot)
    }
 }

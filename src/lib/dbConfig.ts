@@ -7,5 +7,6 @@ export function setDB(_db: DatabaseService) {
 }
 
 export function getDB() {
+   if (!db) throw new Error("Database not initialised. Call setDB before getDB")
    return db
 }

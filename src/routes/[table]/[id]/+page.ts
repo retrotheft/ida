@@ -16,13 +16,13 @@ export const load: PageLoad = async ({ params }) => {
    const tableName = params.table;
 
    if (tableExistsInDb(tableName) && isValidTableName(tableName)) {
-      const result = await db.get(params.table as keyof TableNames)(params.id)
+      const data = await db.get(params.table as keyof TableNames)(params.id)
 
       const Constructor = constructors[tableName];
 
       return {
       // @ts-ignore
-         [tableName]: new Constructor(db, result)
+         [tableName]: new Constructor(data)
       };
    } else {
       return {};

@@ -6,14 +6,16 @@ import { withSave } from '$lib/functions/withSave.js'
 import { withData } from '$lib/functions/withData.js'
 import DataSave from "$lib/components/data/DataSave.svelte";
 import ArticleList from '$lib/components/article/ArticleList.svelte'
+import { BaseDB } from './_BaseDB.js'
 
-export class User {
+export class User extends BaseDB {
    public data = $state<UserSchema>({
       id: crypto.randomUUID(),
       name: 'untitled User'
    })
 
-   constructor(public db: DatabaseService, data?: UserSchema) {
+   constructor(data?: UserSchema) {
+      super()
       if (data) this.data = data
    }
 
@@ -33,8 +35,12 @@ export class User {
       return withData(ArticleList, 'articles', () => this.db.filter('article')({ userId: this.data.id }) ) as any
    }
 
-   static create(db: DatabaseService) {
-      const user = new User(db)
-      return db.put('user')(user.snapshot)
+   get db() {
+      return this.getDB()
+   }
+
+   static create() {
+      const user = new User()
+      return user.db.put('user')(user.snapshot)
    }
 }

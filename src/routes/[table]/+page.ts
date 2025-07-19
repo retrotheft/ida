@@ -26,7 +26,7 @@ export const load: PageLoad = async ({ params }) => {
       const Constructor = constructors[tableName];
 
       return {
-         entries: result.map(el => new Constructor(db, el)),
+         entries: result.map(data => new Constructor(data)),
          constructor: Constructor,
          table: params.table
       };
