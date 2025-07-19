@@ -1,5 +1,4 @@
 import type { ArticleSchema, TagSchema } from '$lib/data.js'
-import { type DatabaseService } from '$lib/data.js'
 import ArticleDetail from '$lib/components/article/ArticleDetail.svelte'
 import ArticleListItem from '$lib/components/article/ArticleListItem.svelte'
 import ArticleView from '$lib/components/article/ArticleView.svelte'

@@ -1,4 +1,4 @@
-import type { DatabaseService, UserSchema } from "$lib/data.js";
+import type { UserSchema } from "$lib/data.js";
 import UserBadge from "$lib/components/user/UserBadge.svelte";
 import UserDetail from "$lib/components/user/UserDetail.svelte"
 import { withProps } from '$lib/functions/withProps.js'

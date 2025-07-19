@@ -1,4 +1,4 @@
-import type { DatabaseService, TagSchema } from "$lib/data.js";
+import type { TagSchema } from "$lib/data.js";
 import TagBadge from "$lib/components/tag/TagBadge.svelte";
 import TagDetail from "$lib/components/tag/TagDetail.svelte"
 import ArticleList from '$lib/components/article/ArticleList.svelte'
