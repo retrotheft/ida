@@ -10,7 +10,6 @@ import { withProps } from '$lib/functions/withProps.js'
 import { withSave } from '$lib/functions/withSave.js'
 import { withData } from '$lib/functions/withData.js'
 import { withInstance } from '$lib/functions/withInstance.js'
-import DataSave from '$lib/components/data/DataSave.svelte'
 import { BaseDB } from './_BaseDB.js'
 
 export class Article extends BaseDB {
@@ -54,14 +53,14 @@ export class Article extends BaseDB {
    }
 
    // using as any suppresses error in article.detail - need to type components properly
-   get snapshot() { return $state.snapshot(this.data) }
-   get detail() { return withSave(DataSave, ArticleDetail, { article: this }, () => this.db.put('article')(this.snapshot)) }
-   get view() { return withProps(ArticleView, { article: this }) }
-   get listItem() { return withProps(ArticleListItem, { article: this }) }
-   get tags() { return withProps(TagList, { tags: this._tags, remove: this.removeTag }) as any }
-   get selectUser() { return withData(UserSelect, 'users', () => this.db.all('user')) as any }
-   get selectTags() { return withData(TagSelect, 'tags', () => this.db.all('tag')) as any }
-   get author() { return withInstance(UserBadge, 'user', () => this.db.get('user')(this.data.userId)) }
+get snapshot() { return $state.snapshot(this.data) }
+get detail() { return withSave(ArticleDetail, { article: this }, () => this.db.put('article')(this.snapshot)) }
+get view() { return withProps(ArticleView, { article: this }) }
+get listItem() { return withProps(ArticleListItem, { article: this }) }
+get tags() { return withProps(TagList, { tags: this._tags, remove: this.removeTag }) as any }
+get selectUser() { return withData(UserSelect, 'users', () => this.db.all('user')) as any }
+get selectTags() { return withData(TagSelect, 'tags', () => this.db.all('tag')) as any }
+get author() { return withInstance(UserBadge, 'user', () => this.db.get('user')(this.data.userId)) }
 
    get db() {
       return this.getDB()

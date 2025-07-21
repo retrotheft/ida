@@ -1,6 +1,7 @@
 import { createRawSnippet, mount, unmount } from 'svelte'
+import DataSave from '$lib/components/data/DataSave.svelte';
 
-export function withSave(SaveComponent: any, ChildComponent: any, props: Record<string, any>, saver: Function) {
+export function withSave(ChildComponent: any, props: Record<string, any>, saver: Function) {
   return function($$anchor: any, $$props: any) {
     const mergedProps = { ...props, ...$$props };
 
@@ -19,6 +20,6 @@ export function withSave(SaveComponent: any, ChildComponent: any, props: Record<
       }))
     };
 
-    return SaveComponent($$anchor, saveProps);
+    return DataSave($$anchor, saveProps);
   };
 }

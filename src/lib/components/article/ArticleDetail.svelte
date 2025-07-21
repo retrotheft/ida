@@ -4,7 +4,7 @@
    let { article }: { article: Article } = $props();
 
    // @ts-expect-error: ts 1308
-   let user = $derived(await article.user);
+   const user = $derived(await article.user);
 </script>
 
 <div>
