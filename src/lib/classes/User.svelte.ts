@@ -4,7 +4,6 @@ import UserDetail from "$lib/components/user/UserDetail.svelte"
 import { withProps } from '$lib/functions/withProps.js'
 import { withSave } from '$lib/functions/withSave.js'
 import { withData } from '$lib/functions/withData.js'
-import DataSave from "$lib/components/data/DataSave.svelte";
 import ArticleList from '$lib/components/article/ArticleList.svelte'
 import { BaseDB } from './_BaseDB.js'
 
@@ -28,7 +27,7 @@ export class User extends BaseDB {
    }
 
    get detail() {
-      return withSave(DataSave, UserDetail, { user: this }, () => this.db.put('user')(this.snapshot))
+      return withSave(UserDetail, { user: this }, () => this.db.put('user')(this.snapshot))
    }
 
    get articles() {

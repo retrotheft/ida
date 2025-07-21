@@ -5,7 +5,6 @@ import ArticleList from '$lib/components/article/ArticleList.svelte'
 import { withData } from '$lib/functions/withData.js'
 import { withProps } from '$lib/functions/withProps.js'
 import { withSave } from '$lib/functions/withSave.js'
-import DataSave from "$lib/components/data/DataSave.svelte";
 import { BaseDB } from './_BaseDB.js'
 
 export class Tag extends BaseDB {
@@ -29,7 +28,7 @@ export class Tag extends BaseDB {
    }
 
    get detail() {
-      return withSave(DataSave, TagDetail, { tag: this }, () => this.db.put('tag')(this.snapshot))
+      return withSave(TagDetail, { tag: this }, () => this.db.put('tag')(this.snapshot))
    }
 
    get articles() {
