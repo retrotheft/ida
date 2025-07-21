@@ -12,4 +12,15 @@
    })
 </script>
 
-{@render children(restProps)}
+<svelte:boundary>
+   {@render children(restProps)}
+
+   <!--  this is still giving ts error 2353, at least in Zed :( -->
+   {#snippet pending()}
+      Loading...
+   {/snippet}
+
+   {#snippet failed(error, reset)}
+      Something went wrong! {error}
+   {/snippet}
+</svelte:boundary>

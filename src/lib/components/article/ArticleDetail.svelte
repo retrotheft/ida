@@ -2,12 +2,15 @@
    import { type Article } from "$lib/classes/Article.svelte.js";
 
    let { article }: { article: Article } = $props();
+
+   // @ts-expect-error: ts 1308
+   let user = $derived(await article.user);
 </script>
 
 <div>
    <label for="title">Title</label><br />
    <input name="title" type="text" bind:value={article.data.title} />
-   <article.selectUser callback={article.updateUser} />
+   <article.selectUser callback={article.updateUser} />by {user?.name}
 </div>
 <div>
    <article.tags /><br />

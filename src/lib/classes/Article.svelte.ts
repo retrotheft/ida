@@ -22,6 +22,7 @@ export class Article extends BaseDB {
       userId: ''
    })
    _tags = $state<TagSchema[]>([])
+   user = $derived(this.db.get('user')(this.data.userId))
 
    constructor(data?: ArticleSchema) {
       super()
@@ -52,7 +53,7 @@ export class Article extends BaseDB {
       this.refreshTags()
    }
 
-   // using as any suppresses error in article.detail
+   // using as any suppresses error in article.detail - need to type components properly
    get snapshot() { return $state.snapshot(this.data) }
    get detail() { return withSave(DataSave, ArticleDetail, { article: this }, () => this.db.put('article')(this.snapshot)) }
    get view() { return withProps(ArticleView, { article: this }) }
