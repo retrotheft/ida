@@ -6,7 +6,7 @@
 <nav>
    <ul>
       <li><a href="/">Home</a></li>
-      {#each db.tables.filter(t => !t.name.includes('_')) as { name }}
+      {#each db.tables.filter(t => !t.name.includes('$') && !t.name.includes('_')) as { name }}
          <li><a href={`/${name}`}>{name}</a></li>
       {/each}
    </ul>

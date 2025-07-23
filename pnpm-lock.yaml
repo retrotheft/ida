@@ -11,6 +11,9 @@ dependencies:
   dexie:
     specifier: ^4.0.11
     version: 4.0.11
+  dexie-cloud-addon:
+    specifier: ^4.0.12
+    version: 4.0.12(dexie@4.0.11)
   zod:
     specifier: ^4.0.5
     version: 4.0.5
@@ -594,6 +597,23 @@ packages:
     resolution: {integrity: sha512-maua5KUiapvEwiEAe+XnlZ3Rh0GD+qI1J/nb9vrJc3muPXvcF/8gXYTWF76+5DAqHyDUtOIImEuo0YKE9mshVw==}
     dev: true
 
+  /dexie-cloud-addon@4.0.12(dexie@4.0.11):
+    resolution: {integrity: sha512-zoaT0QTSujonhBa6iTnHhRt+Mdr3ka7FS6q51V32G278ul5KANMGH7rq9lxHxBbVshujPkMO7ekUCM6lDLoosw==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      dexie: ^4.0.11
+    dependencies:
+      dexie: 4.0.11
+      dexie-cloud-common: 1.0.52
+      rxjs: 7.8.2
+    dev: false
+
+  /dexie-cloud-common@1.0.52:
+    resolution: {integrity: sha512-6ZSGZ4eYdWXfXnMvabvLySOlGl1s0UIt4B8V0j51aHvwUfEfcefJuBj41u51iTht7emIHjHNrz8GJmiean+3cQ==}
+    dependencies:
+      lib0: 0.2.114
+    dev: false
+
   /dexie@4.0.11:
     resolution: {integrity: sha512-SOKO002EqlvBYYKQSew3iymBoN2EQ4BDw/3yprjh7kAfFzjBYkaMNa/pZvcA7HSWlcKSQb9XhPe3wKyQ0x4A8A==}
     dev: false
@@ -666,10 +686,22 @@ packages:
       '@types/estree': 1.0.8
     dev: true
 
+  /isomorphic.js@0.2.5:
+    resolution: {integrity: sha512-PIeMbHqMt4DnUP3MA/Flc0HElYjMXArsw1qwJZcm9sqR8mq3l8NYizFMty0pWwE/tzIGH3EKK5+jes5mAr85yw==}
+    dev: false
+
   /kleur@4.1.5:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
     dev: true
+
+  /lib0@0.2.114:
+    resolution: {integrity: sha512-gcxmNFzA4hv8UYi8j43uPlQ7CGcyMJ2KQb5kZASw6SnAKAf10hK12i2fjrS3Cl/ugZa5Ui6WwIu1/6MIXiHttQ==}
+    engines: {node: '>=16'}
+    hasBin: true
+    dependencies:
+      isomorphic.js: 0.2.5
+    dev: false
 
   /locate-character@3.0.0:
     resolution: {integrity: sha512-SW13ws7BjaeJ6p7Q6CO2nchbYEc3X3J6WrmTTDto7yMPqVSZTUyY5Tjbid+Ab8gLnATtygYtiDIJGQRRn2ZOiA==}
@@ -789,6 +821,12 @@ packages:
       fsevents: 2.3.3
     dev: true
 
+  /rxjs@7.8.2:
+    resolution: {integrity: sha512-dhKf903U/PQZY6boNNtAGdWbG85WAbjT/1xYoZIC7FAY0yWapOBQVsVrDl58W86//e1VpMNBtRV4MaXfdMySFA==}
+    dependencies:
+      tslib: 2.8.1
+    dev: false
+
   /sade@1.8.1:
     resolution: {integrity: sha512-xal3CZX1Xlo/k4ApwCFrHVACi9fBqJ7V+mwhBsuf/1IOKbBy098Fex+Wa/5QMubw09pSZ/u8EY8PWgevJsXp1A==}
     engines: {node: '>=6'}
@@ -886,7 +924,6 @@ packages:
 
   /tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
-    dev: true
 
   /typescript@5.8.3:
     resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}

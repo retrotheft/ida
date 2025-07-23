@@ -1,5 +1,7 @@
 import Dexie, { type EntityTable } from 'dexie'
+import dexieCloud from "dexie-cloud-addon"
 import type { DatabaseService, ArticleSchema, TagSchema, UserSchema, ArticleTagSchema } from '$lib/data.js'
+import { PUBLIC_DB_URL } from '$env/static/public'
 
 export interface TableNames {
    article: EntityTable<ArticleSchema, 'id'>
@@ -15,12 +17,17 @@ class DexieDatabase extends Dexie.default implements DatabaseService, TableNames
    article_tag!: EntityTable<ArticleTagSchema>
 
    constructor() {
-      super('dda-db')
+      super('dda-db', { addons: [dexieCloud] })
       this.version(1).stores({
          article: "&id, title, date, userId",
          tag: "&id, name",
          user: "&id, name",
          article_tag: "&[articleId+tagId], articleId, tagId"
+      })
+
+      this.cloud.configure({
+         databaseUrl: PUBLIC_DB_URL,
+         requireAuth: false
       })
    }
 
