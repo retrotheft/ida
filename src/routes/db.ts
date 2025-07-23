@@ -15,7 +15,7 @@ class DexieDatabase extends Dexie.default implements DatabaseService, TableNames
    article_tag!: EntityTable<ArticleTagSchema>
 
    constructor() {
-      super('blog-db')
+      super('dda-db')
       this.version(1).stores({
          article: "&id, title, date, userId",
          tag: "&id, name",

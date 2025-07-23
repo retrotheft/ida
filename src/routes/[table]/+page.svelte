@@ -1,5 +1,6 @@
 <script lang="ts">
    import { invalidateAll } from "$app/navigation";
+    import { onDestroy } from "svelte";
 
    type ValidClass = {
       create: Function
@@ -17,6 +18,10 @@
       data.constructor.create();
       invalidateAll();
    }
+
+   onDestroy(() => {
+      console.log("Table route destroyed", data)
+   })
 </script>
 
 <h2>{data.table}s</h2>

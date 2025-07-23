@@ -1,4 +1,5 @@
 <script lang="ts">
+   // @ts-nocheck
    import { type Snippet } from 'svelte'
 
    let { saver, children, ...restProps }: { saver: Function, children: Snippet<[any]>} = $props()

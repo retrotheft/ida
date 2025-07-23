@@ -5,6 +5,14 @@
 
    // @ts-expect-error: ts 1308
    const user = $derived(await article.user);
+
+   // let user = $state.raw(null)
+
+   // $effect(async () => {
+   //    user = await article.user
+   // })
+
+   console.log(article)
 </script>
 
 <div>
@@ -13,7 +21,7 @@
    <article.selectUser callback={article.updateUser} />by {user?.name}
 </div>
 <div>
-   <article.tags /><br />
+   <article.tagsList /><br />
    Add Tag: <article.selectTags callback={article.addTag} />
 </div>
 <div>
