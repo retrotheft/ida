@@ -1,5 +1,5 @@
 <script lang="ts">
-   import { db } from './db.js'
+   import { database as db } from '$lib/remote/dexie.js'
 </script>
 
 {#if db}

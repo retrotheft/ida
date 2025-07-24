@@ -5,16 +5,15 @@ import { withProps } from '$lib/functions/withProps.js'
 import { withSave } from '$lib/functions/withSave.js'
 import { withData } from '$lib/functions/withData.js'
 import ArticleList from '$lib/components/article/ArticleList.svelte'
-import { BaseDB } from './_BaseDB.js'
+import { put, filter } from '$lib/remote/dexie.js'
 
-export class User extends BaseDB {
+export class User {
    public data = $state<UserSchema>({
       id: crypto.randomUUID(),
       name: 'untitled User'
    })
 
    constructor(data?: UserSchema) {
-      super()
       if (data) this.data = data
    }
 
@@ -27,19 +26,15 @@ export class User extends BaseDB {
    }
 
    get detail() {
-      return withSave(UserDetail, { user: this }, () => this.db.put('user')(this.snapshot))
+      return withSave(UserDetail, { user: this }, () => put('user')(this.snapshot))
    }
 
    get articles() {
-      return withData(ArticleList, 'articles', () => this.db.filter('article')({ userId: this.data.id }) ) as any
-   }
-
-   get db() {
-      return this.getDB()
+      return withData(ArticleList, 'articles', () => filter('article')({ userId: this.data.id }) ) as any
    }
 
    static create() {
       const user = new User()
-      return user.db.put('user')(user.snapshot)
+      return put('user')(user.snapshot)
    }
 }

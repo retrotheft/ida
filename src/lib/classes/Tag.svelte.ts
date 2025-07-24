@@ -5,9 +5,9 @@ import ArticleList from '$lib/components/article/ArticleList.svelte'
 import { withData } from '$lib/functions/withData.js'
 import { withProps } from '$lib/functions/withProps.js'
 import { withSave } from '$lib/functions/withSave.js'
-import { BaseDB } from './_BaseDB.js'
+import { add, all, get, put, del, join, filter } from '$lib/remote/dexie.js'
 
-export class Tag extends BaseDB {
+export class Tag {
    public data = $state<TagSchema>({
       id: crypto.randomUUID(),
       name: 'untitled tag',
@@ -15,7 +15,6 @@ export class Tag extends BaseDB {
    })
 
    constructor(data?: TagSchema) {
-      super()
       if (data) this.data = data
    }
 
@@ -28,19 +27,15 @@ export class Tag extends BaseDB {
    }
 
    get detail() {
-      return withSave(TagDetail, { tag: this }, () => this.db.put('tag')(this.snapshot))
+      return withSave(TagDetail, { tag: this }, () => put('tag')(this.snapshot))
    }
 
    get articles() {
-      return withData(ArticleList, 'articles', () => this.db.join('tag')('article')({ tagId: this.data.id })) as any
-   }
-
-   get db() {
-      return this.getDB()
+      return withData(ArticleList, 'articles', () => join('tag')('article')({ tagId: this.data.id })) as any
    }
 
    static create() {
       const tag = new Tag()
-      return tag.db.put('tag')(tag.snapshot)
+      return put('tag')(tag.snapshot)
    }
 }

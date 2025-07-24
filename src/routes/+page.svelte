@@ -1,13 +1,5 @@
-<!-- <script lang="ts">
-   import { Article } from '$lib/classes/ArticlePure.svelte.js'
-   import { createArticleProxy } from '$lib/classes/Article.js';
-   import { db } from './db.js'
+Welcome!
 
-   const withComponents = createArticleProxy(db)
-   const article = withComponents(new Article())
+This is currently my development sandbox for my instance-driven architecture. This is a recent experiment I'm working on whose goal is to generate SvelteKit apps from a db schema.
 
-   console.log(article)
-</script>
-
-<article.detail />
-<article.view /> -->
+I'm aiming to make it compatible with Svelte's new async and remote function features. This is currently a work in progress.

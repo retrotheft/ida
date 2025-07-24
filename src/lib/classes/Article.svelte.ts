@@ -10,9 +10,9 @@ import { withProps } from '$lib/functions/withProps.js'
 import { withSave } from '$lib/functions/withSave.js'
 import { withData } from '$lib/functions/withData.js'
 import { withInstance } from '$lib/functions/withInstance.js'
-import { BaseDB } from './_BaseDB.js'
+import { add, put, del, join, get, filter, all } from "$lib/remote/dexie.js"
 
-export class Article extends BaseDB {
+export class Article {
    public data = $state<ArticleSchema>({
       id: crypto.randomUUID(),
       title: 'untitled',
@@ -21,17 +21,16 @@ export class Article extends BaseDB {
       userId: ''
    })
    _tags = $state<TagSchema[]>([])
-   user = $derived(this.db.get('user')(this.data.userId))
+   user = $derived(get('user')(this.data.userId))
 
    constructor(data?: ArticleSchema) {
-      super()
       if (data) this.data = data
       this.refreshTags()
    }
 
    refreshTags = () => {
-      return this.db.join('article')('tag')({ articleId: this.data.id })
-         .then((res: TagSchema[]) => this._tags = res)
+      return join('article')('tag')({ articleId: this.data.id })
+         .then((res) => this._tags = (res as TagSchema[]) || [])
    }
 
    updateUser = (id: string) => {
@@ -42,32 +41,28 @@ export class Article extends BaseDB {
       const articleId = this.data.id
       const tagId = id
       const articleTag = { articleId, tagId }
-      this.db.put('article_tag')(articleTag)
+      put('article_tag')(articleTag)
       this.refreshTags()
    }
 
    removeTag = (tagId: string) => {
       const articleId = this.data.id
-      this.db.del('article_tag')([articleId, tagId])
+      del('article_tag')([articleId, tagId])
       this.refreshTags()
    }
 
    // using as any suppresses error in article.detail - need to type components properly
-get snapshot() { return $state.snapshot(this.data) }
-get detail() { return withSave(ArticleDetail, { article: this }, () => this.db.put('article')(this.snapshot)) }
-get view() { return withProps(ArticleView, { article: this }) }
-get listItem() { return withProps(ArticleListItem, { article: this }) }
-get tagsList() { return withProps(TagList, { tags: this._tags, remove: this.removeTag }) as any }
-get selectUser() { return withData(UserSelect, 'users', () => this.db.all('user')) as any }
-get selectTags() { return withData(TagSelect, 'tags', () => this.db.all('tag')) as any }
-get author() { return withInstance(UserBadge, 'user', () => this.db.get('user')(this.data.userId), ) }
-
-   get db() {
-      return this.getDB()
-   }
+   get snapshot() { return $state.snapshot(this.data) }
+   get detail() { return withSave(ArticleDetail, { article: this }, () => put('article')(this.snapshot)) }
+   get view() { return withProps(ArticleView, { article: this }) }
+   get listItem() { return withProps(ArticleListItem, { article: this }) }
+   get tagsList() { return withProps(TagList, { tags: this._tags, remove: this.removeTag }) as any }
+   get selectUser() { return withData(UserSelect, 'users', () => all('user')) as any }
+   get selectTags() { return withData(TagSelect, 'tags', () => all('tag')) as any }
+   get author() { return withInstance(UserBadge, 'user', () => get('user')(this.data.userId), ) }
 
    static create() {
       const article = new Article()
-      return article.db.put('article')(article.snapshot)
+      return put('article')(article.snapshot)
    }
 }
